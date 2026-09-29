@@ -1,0 +1,14 @@
+app:
+  name: projectx
+  version: 0.1.0
+  log_level: INFO
+  data_dir: ~/.projectx
+
+storage:
+  backend: local
+  local:
+    base_path: ~/.projectx/storage
+
+cache:
+  backend: memory
+  ttl_seconds: 3600

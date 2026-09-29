@@ -1,0 +1,9 @@
+providers:
+  text_generation:
+    default: ollama
+    fallback: null
+    adapters:
+      ollama:
+        base_url: http://localhost:11434
+        default_model: llama3.2
+        timeout: 120

@@ -9,7 +9,7 @@ import {
   Check,
   AlertCircle,
 } from "lucide-react";
-import { useChatStore } from "@/stores/chat-store";
+import { useChatStore } from "@/features/chat/store";
 
 interface SpeechRecognitionResultItem { transcript: string; }
 interface SpeechRecognitionResultList {
@@ -67,52 +67,52 @@ export function VoiceAssistant() {
   return (
     <div className="flex flex-col items-center justify-center min-h-[calc(100vh-120px)] max-w-2xl mx-auto px-6">
       {/* Title */}
-      <p className="text-[11px] font-semibold uppercase tracking-[0.15em] mb-10" style={{ color: "#3a3a44" }}>
+      <p className="text-[12px] font-bold uppercase tracking-widest mb-12" style={{ color: "var(--text-muted)" }}>
         Voice · Speech to Text
       </p>
 
       {!isSupported && (
-        <div className="w-full mb-8 p-3 rounded-xl text-[13px] flex items-center gap-2.5" style={{ color: "#f59e0b", background: "rgba(245,158,11,0.05)", border: "1px solid rgba(245,158,11,0.1)" }}>
-          <AlertCircle className="w-4 h-4 shrink-0" />
+        <div className="w-full mb-10 p-4 rounded-xl text-[14px] font-semibold flex items-center justify-center gap-3 shadow-sm" style={{ color: "#d97706", background: "#fef3c7", border: "1px solid #fde68a" }}>
+          <AlertCircle className="w-5 h-5 shrink-0" />
           Use Chrome, Edge, or Safari for native speech recognition.
         </div>
       )}
 
       {/* ── MIC BUTTON ── */}
-      <div className="relative flex items-center justify-center mb-8">
+      <div className="relative flex items-center justify-center mb-10">
         {/* Pulse rings */}
         {isListening && (
           <>
-            <div className="absolute w-40 h-40 rounded-full pulse-ring" style={{ background: "rgba(124,92,252,0.06)" }} />
-            <div className="absolute w-56 h-56 rounded-full pulse-ring" style={{ background: "rgba(124,92,252,0.03)", animationDelay: "0.4s" }} />
+            <div className="absolute w-48 h-48 rounded-full pulse-ring" style={{ background: "var(--accent-glow)" }} />
+            <div className="absolute w-64 h-64 rounded-full pulse-ring" style={{ background: "var(--accent-glow)", animationDelay: "0.4s", opacity: 0.5 }} />
           </>
         )}
 
         <button
           disabled={!isSupported}
           onClick={toggle}
-          className="relative z-10 w-28 h-28 rounded-full flex flex-col items-center justify-center transition-all duration-500 cursor-pointer"
+          className="relative z-10 w-32 h-32 rounded-full flex flex-col items-center justify-center transition-all duration-500 cursor-pointer shadow-2xl hover:scale-105"
           style={
             isListening
               ? {
-                  background: "linear-gradient(135deg, #7c5cfc, #a78bfa)",
-                  boxShadow: "0 0 60px -8px rgba(124,92,252,0.5), 0 0 120px -16px rgba(124,92,252,0.2)",
+                  background: "var(--accent)",
+                  boxShadow: "0 0 60px -8px var(--accent-glow), 0 0 120px -16px var(--accent-glow)",
                 }
               : {
-                  background: "rgba(255,255,255,0.03)",
-                  border: "1px solid rgba(255,255,255,0.06)",
+                  background: "var(--tile-bg)",
+                  border: "1px solid var(--tile-border)",
                 }
           }
         >
           {isListening ? (
             <>
-              <Mic className="w-8 h-8 text-white" />
-              <span className="text-[8px] font-bold mt-1 tracking-[0.2em] uppercase text-white/70">Listening</span>
+              <Mic className="w-10 h-10" style={{ color: "var(--bg-base)" }} />
+              <span className="text-[10px] font-extrabold mt-2 tracking-widest uppercase" style={{ color: "var(--bg-base)", opacity: 0.8 }}>Listening</span>
             </>
           ) : (
             <>
-              <MicOff className="w-8 h-8" style={{ color: "#3a3a44" }} />
-              <span className="text-[8px] font-bold mt-1 tracking-[0.2em] uppercase" style={{ color: "#3a3a44" }}>Tap</span>
+              <MicOff className="w-10 h-10" style={{ color: "var(--text-muted)" }} />
+              <span className="text-[10px] font-bold mt-2 tracking-widest uppercase" style={{ color: "var(--text-muted)" }}>Tap</span>
             </>
           )}
         </button>
@@ -120,12 +120,12 @@ export function VoiceAssistant() {
 
       {/* Waveform when listening */}
       {isListening && (
-        <div className="flex items-center gap-[3px] h-10 mb-6">
+        <div className="flex items-center gap-1.5 h-12 mb-8">
           {Array.from({ length: 20 }, (_, i) => (
             <div
               key={i}
-              className="wave-bar"
-              style={{ animationDelay: `${i * 0.06}s` }}
+              className="wave-bar w-1.5 rounded-full"
+              style={{ background: "var(--accent)", animationDelay: `${i * 0.06}s` }}
             />
           ))}
         </div>
@@ -135,33 +135,33 @@ export function VoiceAssistant() {
       <div className="w-full mt-4">
         {transcript ? (
           <div
-            className="p-5 rounded-2xl"
-            style={{ background: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.05)" }}
+            className="p-8 rounded-3xl shadow-xl transition-all"
+            style={{ background: "var(--tile-bg)", border: "1px solid var(--tile-border)" }}
           >
-            <p className="text-[15px] leading-relaxed mb-4" style={{ color: "#d4d4dc" }}>
+            <p className="text-[16px] font-medium leading-relaxed mb-6" style={{ color: "var(--text-primary)" }}>
               {transcript}
             </p>
-            <div className="flex items-center gap-2">
+            <div className="flex items-center gap-3">
               <button
                 onClick={handleCopy}
-                className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-[11px] font-medium transition-colors"
-                style={{ color: "#6b6b76", background: "rgba(255,255,255,0.03)", border: "1px solid rgba(255,255,255,0.05)" }}
+                className="flex items-center gap-2 px-4 py-2.5 rounded-xl text-[13px] font-bold transition-all hover:scale-105"
+                style={{ color: "var(--text-primary)", background: "rgba(0,0,0,0.05)", border: "1px solid var(--tile-border)" }}
               >
-                {copied ? <Check className="w-3 h-3 text-emerald-400" /> : <Copy className="w-3 h-3" />}
+                {copied ? <Check className="w-4 h-4 text-emerald-500" /> : <Copy className="w-4 h-4" />}
                 {copied ? "Copied" : "Copy"}
               </button>
               <button
                 onClick={() => { addMessage({ role: "user", content: transcript }); }}
-                className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-[11px] font-medium text-white transition-all"
-                style={{ background: "linear-gradient(135deg, #7c5cfc, #a78bfa)", boxShadow: "0 4px 12px -4px rgba(124,92,252,0.3)" }}
+                className="flex items-center gap-2 px-5 py-2.5 rounded-xl text-[13px] font-bold transition-all hover:scale-105 shadow-md"
+                style={{ background: "var(--accent)", color: "var(--bg-base)" }}
               >
-                <Send className="w-3 h-3" />
+                <Send className="w-4 h-4" />
                 Send to Chat
               </button>
             </div>
           </div>
         ) : (
-          <p className="text-center text-[13px]" style={{ color: "#3a3a44" }}>
+          <p className="text-center text-[15px] font-semibold" style={{ color: "var(--text-muted)" }}>
             {isListening ? "Listening — start speaking..." : "Tap the microphone to begin"}
           </p>
         )}

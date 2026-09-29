@@ -32,14 +32,14 @@ projectx/
 │   ├── orchestration/     # Layer 3: pipeline engine, task queue, cache, fallback
 │   ├── api/               # Layer 4: FastAPI routes, lifespan, websocket (/ws/chat)
 │   └── cli/               # Layer 5: REPL, TUI, slash commands, ask command
-├── web/                   # Next.js 15 App Router frontend
-│   ├── src/app/           # Layout, routing, design system
-│   ├── src/components/    # chat/, voice/, shopping/, dashboard/, layout/
-│   ├── src/stores/        # Zustand state stores
-│   ├── src/lib/           # Typed API client, SSE stream reader
+├── web/                   # Next.js 16 App Router frontend
+│   ├── src/app/           # File-based routing, layout, globals.css (design system)
+│   ├── src/features/      # Feature-Sliced modules (chat, foundry, shopping, voice, dashboard)
+│   │   └── <feature>/     # Each feature has isolated components/, api.ts, and store.ts
+│   ├── src/components/    # Global layouts only (floating-dock, theme-selector)
+│   ├── src/lib/           # Typed API client, generic utilities
 │   └── src/types/         # Mirrored TypeScript schemas
 ├── tests/                 # Unit & integration test suites
-├── config/                # YAML configuration files
 └── pyproject.toml
 ```
 
@@ -120,7 +120,7 @@ ProjectXError
 ```
 
 ## Running
- 
+
 ```bash
 # Backend (Python / FastAPI)
 uv run pytest                    # Run Python tests (103 passing)
@@ -149,4 +149,3 @@ Phase 2: Full-Stack Web Platform active.
 - VOICE-001 (Real-time Speech Recognition & Transcription): ✅ Done
 - DASH-001 (Multi-Layer Architecture Health & Diagnostics Dashboard): ✅ Done
 - SHOP-001 & SHOP-004 (E-Commerce Multi-Site Comparison, Price Trajectory Charts & AI Reviews): ✅ Done
-

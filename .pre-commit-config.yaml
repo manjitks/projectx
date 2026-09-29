@@ -1,0 +1,68 @@
+# ProjectX Pre-Commit Hooks
+# These gates are MECHANICAL — they block bad code before it enters the repo.
+# No human review needed for what these catch.
+
+repos:
+  # ── Python: Ruff (Linting + Formatting) ──
+  - repo: https://github.com/astral-sh/ruff-pre-commit
+    rev: v0.8.6
+    hooks:
+      - id: ruff
+        args: [--fix, --exit-non-zero-on-fix]
+        name: "Python · Lint (Ruff)"
+      - id: ruff-format
+        name: "Python · Format (Ruff)"
+
+  # ── Python: Pyright (Type Checking) ──
+  - repo: local
+    hooks:
+      - id: pyright
+        name: "Python · Type Check (Pyright)"
+        entry: uv run pyright src/
+        language: system
+        types: [python]
+        pass_filenames: false
+
+  # ── Python: Tests ──
+  - repo: local
+    hooks:
+      - id: pytest
+        name: "Python · Tests (pytest)"
+        entry: uv run pytest tests/ -x -q --tb=short
+        language: system
+        types: [python]
+        pass_filenames: false
+        stages: [pre-push]
+
+  # ── Frontend: TypeScript Compiler Check ──
+  - repo: local
+    hooks:
+      - id: tsc-check
+        name: "Frontend · Type Check (tsc --noEmit)"
+        entry: bash -c 'cd web && npx tsc --noEmit'
+        language: system
+        types_or: [ts, tsx]
+        pass_filenames: false
+
+  # ── Universal: Security ──
+  - repo: https://github.com/gitleaks/gitleaks
+    rev: v8.24.3
+    hooks:
+      - id: gitleaks
+        name: "Security · Secret Scan (Gitleaks)"
+
+  # ── Universal: Hygiene ──
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v5.0.0
+    hooks:
+      - id: trailing-whitespace
+        name: "Hygiene · Trailing Whitespace"
+      - id: end-of-file-fixer
+        name: "Hygiene · EOF Newline"
+      - id: check-yaml
+        name: "Hygiene · Valid YAML"
+      - id: check-added-large-files
+        args: ['--maxkb=500']
+        name: "Hygiene · No Large Files"
+      - id: detect-private-key
+        name: "Security · No Private Keys"

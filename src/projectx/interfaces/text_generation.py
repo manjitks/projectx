@@ -49,9 +49,7 @@ class TextGenerationInterface(ABC):
         ...
 
     @abstractmethod
-    async def generate_stream(
-        self, request: TextGenRequest
-    ) -> AsyncIterator[TextChunk]:
+    def generate_stream(self, request: TextGenRequest) -> AsyncIterator[TextChunk]:
         """Stream generated text chunks for a given request."""
         ...
 

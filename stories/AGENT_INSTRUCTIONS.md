@@ -19,6 +19,21 @@
 6. **All functions async** unless they can't be (e.g., `__init__`, properties)
 7. **Pydantic v2** — use `BaseModel`, `Field`, `model_validator` (not `validator`)
 
+## TDD Workflow (MANDATORY)
+
+> **You MUST follow Red → Green → Refactor for every piece of code you write.**
+
+1. **RED:** Write (or read) the test first. Run `uv run pytest <test-file> -v`. Confirm it FAILS.
+2. **GREEN:** Write the minimum implementation to make the test pass. Run tests again. Confirm PASS.
+3. **REFACTOR:** Clean up the code while keeping all tests green.
+
+**Non-negotiable rules:**
+- **Never write implementation code without a corresponding test.** If a test doesn't exist for your function, write one before writing the function.
+- Every new adapter requires tests for: `__init__`, `capabilities()`, happy-path operation, error handling (network down, bad model name, timeout).
+- Every new service requires tests for: constructor injection, successful operation, fallback/error event publishing.
+- Every new API route requires tests for: 200 response shape, 422 validation error, 500 error handling.
+- Coverage target: **90%** for `core/`, `services/`, `adapters/`.
+
 ## Done When
 
 ```bash

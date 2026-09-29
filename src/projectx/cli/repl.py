@@ -22,6 +22,7 @@ def run_repl(service: TextGenService | None = None) -> None:
     from projectx.core.bootstrap import get_application
 
     started_by_repl = False
+    application = None
     if service is not None:
         active_service = service
     else:
@@ -65,5 +66,5 @@ def run_repl(service: TextGenService | None = None) -> None:
                 except Exception as exc:
                     console.print(f"[bold red]Error:[/bold red] {exc}")
     finally:
-        if started_by_repl:
+        if started_by_repl and application is not None:
             asyncio.run(application.shutdown())

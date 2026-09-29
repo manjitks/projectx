@@ -1,384 +1,178 @@
 "use client";
 
-import React, { useState } from "react";
-import {
-  MessageSquare,
-  Mic,
-  ShoppingBag,
-  Activity,
-  Home,
-  ArrowLeft,
-  Sparkles,
-  Zap,
-  TrendingDown,
-  Radio,
-} from "lucide-react";
-import { ChatContainer } from "@/components/chat/chat-container";
-import { VoiceAssistant } from "@/components/voice/voice-assistant";
-import { ShoppingHelper } from "@/components/shopping/shopping-helper";
-import { SystemDashboard } from "@/components/dashboard/system-dashboard";
-
-type View = "hub" | "chat" | "voice" | "shopping" | "dashboard";
-
-const dockItems = [
-  { id: "hub" as View, icon: Home, label: "Hub" },
-  { id: "chat" as View, icon: MessageSquare, label: "Chat" },
-  { id: "voice" as View, icon: Mic, label: "Voice" },
-  { id: "shopping" as View, icon: ShoppingBag, label: "Shopping" },
-  { id: "dashboard" as View, icon: Activity, label: "Dashboard" },
-];
+import React from "react";
+import Link from "next/link";
+import { MessageSquare, Mic, ShoppingBag, Activity, Sparkles } from "lucide-react";
 
 export default function HomePage() {
-  const [activeView, setActiveView] = useState<View>("hub");
-
   return (
-    <div className="relative min-h-screen" style={{ background: "#050507" }}>
-      {/* ═══ ANIMATED GRADIENT MESH BACKDROP ═══ */}
-      <div className="gradient-mesh" />
-      <div className="gradient-mesh-accent" />
-
-      {/* ═══ MAIN CONTENT ═══ */}
-      {activeView === "hub" ? (
-        <HubView onNavigate={setActiveView} />
-      ) : (
-        <div className="feature-page">
-          {/* Back to hub */}
-          <div className="px-6 pt-5">
-            <button
-              onClick={() => setActiveView("hub")}
-              className="back-btn"
-            >
-              <ArrowLeft className="w-3.5 h-3.5" />
-              Back
-            </button>
-          </div>
-
-          {activeView === "chat" && <ChatContainer />}
-          {activeView === "voice" && <VoiceAssistant />}
-          {activeView === "shopping" && <ShoppingHelper />}
-          {activeView === "dashboard" && <SystemDashboard />}
-        </div>
-      )}
-
-      {/* ═══ FLOATING DOCK ═══ */}
-      <div className="floating-dock">
-        {dockItems.map((item) => {
-          const Icon = item.icon;
-          return (
-            <button
-              key={item.id}
-              onClick={() => setActiveView(item.id)}
-              className={`dock-item ${activeView === item.id ? "active" : ""}`}
-              aria-label={item.label}
-            >
-              <Icon className="w-5 h-5" />
-              <span className="dock-tooltip">{item.label}</span>
-            </button>
-          );
-        })}
-      </div>
-    </div>
-  );
-}
-
-/* ═══════════════════════════
-   BENTO GRID HUB
-   The signature landing view
-   ═══════════════════════════ */
-
-function HubView({ onNavigate }: { onNavigate: (view: View) => void }) {
-  return (
-    <div className="relative z-10 max-w-5xl mx-auto px-6 pt-16 pb-24">
+    <div className="relative z-10 max-w-5xl mx-auto px-6 pt-24 pb-32">
       {/* ── Brand Header ── */}
-      <div className="mb-14">
-        <div className="flex items-center gap-3 mb-5">
-          <div
-            className="w-10 h-10 rounded-xl flex items-center justify-center"
-            style={{
-              background: "linear-gradient(135deg, #7c5cfc, #a78bfa, #c4b5fd)",
-              boxShadow: "0 4px 20px -4px rgba(124, 92, 252, 0.4)",
-            }}
-          >
-            <Sparkles className="w-5 h-5 text-white" />
-          </div>
-          <span
-            className="text-[13px] font-medium px-2.5 py-0.5 rounded-full"
-            style={{
-              color: "#7c5cfc",
-              background: "rgba(124, 92, 252, 0.08)",
-              border: "1px solid rgba(124, 92, 252, 0.15)",
-            }}
-          >
-            v0.1.0
-          </span>
+      <div className="flex flex-col items-center text-center mb-16">
+        <div className="inline-flex items-center justify-center w-16 h-16 rounded-2xl mb-6 shadow-xl"
+             style={{ background: "var(--accent)" }}>
+          <Sparkles className="w-8 h-8" style={{ color: "var(--bg-base)" }} />
         </div>
-        <h1
-          className="text-5xl font-bold tracking-tight leading-[1.1] mb-3"
-          style={{
-            background: "linear-gradient(135deg, #fafafa 0%, #a1a1aa 50%, #fafafa 100%)",
-            backgroundSize: "200% 100%",
-            WebkitBackgroundClip: "text",
-            WebkitTextFillColor: "transparent",
-            backgroundClip: "text",
-          }}
-        >
-          Your AI,<br />unified.
+        <h1 className="text-6xl font-extrabold tracking-tight mb-4" style={{ color: "var(--text-primary)" }}>
+          Your AI, unified.
         </h1>
-        <p className="text-lg leading-relaxed max-w-lg" style={{ color: "#6b6b76" }}>
-          Chat, voice, price intelligence, and system health —
-          all running through one modular platform.
+        <p className="text-xl max-w-2xl" style={{ color: "var(--text-muted)" }}>
+          A truly elegant, life-like workspace. Chat, voice, price intelligence, and system health flowing seamlessly together.
         </p>
       </div>
 
       {/* ── Bento Grid ── */}
-      <div className="grid grid-cols-4 grid-rows-3 gap-4" style={{ minHeight: 520 }}>
-        {/* ━━ CHAT — Large tile (2x2) ━━ */}
-        <div
-          className="bento-tile col-span-2 row-span-2 p-7 flex flex-col justify-between"
-          onClick={() => onNavigate("chat")}
-        >
-          {/* Decorative gradient corner */}
-          <div
-            className="absolute top-0 right-0 w-48 h-48 pointer-events-none"
-            style={{
-              background: "radial-gradient(circle at top right, rgba(124, 92, 252, 0.1), transparent 70%)",
-            }}
-          />
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
 
-          <div className="relative z-10">
-            <div className="flex items-center gap-2.5 mb-4">
-              <div
-                className="w-9 h-9 rounded-xl flex items-center justify-center"
-                style={{
-                  background: "rgba(124, 92, 252, 0.1)",
-                  border: "1px solid rgba(124, 92, 252, 0.2)",
-                }}
-              >
-                <MessageSquare className="w-4.5 h-4.5 text-[#a78bfa]" />
-              </div>
-              <span className="text-[11px] font-semibold uppercase tracking-[0.1em]" style={{ color: "#6b6b76" }}>
-                AI Chat
-              </span>
+        {/* FOUNDRY (FLAGSHIP) */}
+        <Link href="/foundry" className="bento-tile col-span-1 lg:col-span-4 p-8 flex flex-col sm:flex-row items-center justify-between gap-8 group relative overflow-hidden">
+          <div className="absolute top-0 right-0 w-96 h-96 -mr-20 -mt-20 rounded-full blur-3xl opacity-20 group-hover:opacity-40 transition-opacity pointer-events-none" style={{ background: "var(--accent)" }} />
+
+          <div className="relative z-10 flex-1">
+            <div className="inline-flex items-center justify-center px-3 py-1 rounded-full mb-4 font-bold text-[10px] tracking-widest uppercase shadow-sm" style={{ background: "var(--accent-glow)", color: "var(--accent)", border: "1px solid var(--accent)" }}>
+              Flagship Workspace
             </div>
-            <h2 className="text-2xl font-bold text-white tracking-tight mb-1.5">
-              Talk to any model
-            </h2>
-            <p className="text-[13px] leading-relaxed" style={{ color: "#6b6b76" }}>
-              Ollama local, GPT-4o cloud, or your own — stream responses in real time.
-            </p>
+            <h2 className="text-4xl font-extrabold mb-2 tracking-tight" style={{ color: "var(--text-primary)" }}>The Foundry</h2>
+            <p className="text-lg max-w-lg font-medium" style={{ color: "var(--text-muted)" }}>Drop raw ideas, PDFs, and links into the Hopper. Watch the AI autonomously synthesize them into a structured document.</p>
           </div>
 
-          {/* Mini chat preview */}
-          <div className="relative z-10 space-y-3 mt-6">
-            <div className="flex gap-2.5">
-              <div className="w-6 h-6 rounded-lg flex-shrink-0" style={{ background: "rgba(255,255,255,0.06)" }} />
-              <div
-                className="px-3.5 py-2.5 rounded-xl rounded-tl-sm text-[12.5px] max-w-[70%]"
-                style={{ background: "rgba(255,255,255,0.04)", color: "#a1a1aa" }}
-              >
-                Explain quantum entanglement simply
-              </div>
+          <div className="relative z-10 flex-shrink-0 flex items-center gap-4 p-5 rounded-2xl border backdrop-blur-md shadow-xl transition-transform group-hover:scale-105" style={{ background: "var(--tile-border)", borderColor: "var(--tile-border)" }}>
+            <div className="flex flex-col gap-2 w-32 opacity-70">
+              <div className="h-2 w-full rounded-full" style={{ background: "var(--text-muted)" }} />
+              <div className="h-2 w-3/4 rounded-full" style={{ background: "var(--text-muted)" }} />
+              <div className="h-2 w-5/6 rounded-full" style={{ background: "var(--text-muted)" }} />
             </div>
-            <div className="flex gap-2.5">
-              <div
-                className="w-6 h-6 rounded-lg flex-shrink-0 flex items-center justify-center"
-                style={{ background: "rgba(124, 92, 252, 0.15)" }}
-              >
-                <Sparkles className="w-3 h-3 text-[#a78bfa]" />
-              </div>
-              <div
-                className="px-3.5 py-2.5 rounded-xl rounded-tl-sm text-[12.5px] max-w-[85%]"
-                style={{ background: "rgba(124, 92, 252, 0.06)", color: "#c4b5fd" }}
-              >
-                Think of two coins that are magically linked — when you flip one and it lands heads, the other instantly lands tails...
-              </div>
+            <Sparkles className="w-6 h-6 animate-pulse" style={{ color: "var(--accent)" }} />
+            <div className="flex flex-col gap-2 w-32">
+              <div className="h-2 w-full rounded-full" style={{ background: "var(--accent)" }} />
+              <div className="h-2 w-full rounded-full" style={{ background: "var(--accent)" }} />
+              <div className="h-2 w-3/4 rounded-full" style={{ background: "var(--accent)" }} />
             </div>
           </div>
-        </div>
+        </Link>
 
-        {/* ━━ VOICE — Tall tile (2x1, top-right) ━━ */}
-        <div
-          className="bento-tile col-span-2 row-span-1 p-6 flex items-center justify-between"
-          onClick={() => onNavigate("voice")}
-        >
-          <div
-            className="absolute bottom-0 left-0 w-40 h-40 pointer-events-none"
-            style={{
-              background: "radial-gradient(circle at bottom left, rgba(16, 185, 129, 0.08), transparent 70%)",
-            }}
-          />
-          <div className="relative z-10">
-            <div className="flex items-center gap-2.5 mb-3">
-              <div
-                className="w-8 h-8 rounded-xl flex items-center justify-center"
-                style={{
-                  background: "rgba(16, 185, 129, 0.1)",
-                  border: "1px solid rgba(16, 185, 129, 0.2)",
-                }}
-              >
-                <Mic className="w-4 h-4 text-emerald-400" />
-              </div>
-              <span className="text-[11px] font-semibold uppercase tracking-[0.1em]" style={{ color: "#6b6b76" }}>
-                Voice
-              </span>
+        {/* CHAT */}
+        <Link href="/chat" className="bento-tile col-span-1 lg:col-span-2 row-span-2 p-8 min-h-[300px] flex flex-col justify-between group">
+          <div>
+            <div className="inline-flex items-center justify-center w-12 h-12 rounded-xl mb-4 transition-transform group-hover:scale-110" style={{ background: "var(--accent-glow)", color: "var(--accent)" }}>
+              <MessageSquare className="w-6 h-6" />
             </div>
-            <h3 className="text-lg font-bold text-white tracking-tight mb-1">
-              Speech to text
-            </h3>
-            <p className="text-[12px]" style={{ color: "#6b6b76" }}>
-              Browser-native + Whisper server
-            </p>
+            <h2 className="text-3xl font-bold mb-2" style={{ color: "var(--text-primary)" }}>AI Chat</h2>
+            <p className="text-lg" style={{ color: "var(--text-muted)" }}>Talk to local and cloud models in real time.</p>
           </div>
+          <div className="mt-8 p-4 rounded-xl border backdrop-blur-md" style={{ background: "var(--tile-border)", borderColor: "var(--tile-border)" }}>
+            <div className="flex items-center gap-3">
+              <div className="w-8 h-8 rounded-full flex items-center justify-center" style={{ background: "var(--accent)" }}><Sparkles className="w-4 h-4" style={{ color: "var(--bg-base)" }}/></div>
+              <p className="text-sm font-medium" style={{ color: "var(--text-primary)" }}>Hello! How can I help you build today?</p>
+            </div>
+          </div>
+        </Link>
 
-          {/* Waveform visualization */}
-          <div className="relative z-10 flex items-center gap-[3px] h-12">
-            {[0.3, 0.7, 1, 0.5, 0.8, 1, 0.6, 0.9, 0.4, 0.7, 1, 0.5].map((d, i) => (
-              <div
-                key={i}
-                className="wave-bar"
-                style={{
-                  height: `${d * 36}px`,
-                  animationDelay: `${i * 0.08}s`,
-                  opacity: 0.5 + d * 0.5,
-                }}
-              />
+        {/* VOICE */}
+        <Link href="/voice" className="bento-tile col-span-1 lg:col-span-2 p-8 flex items-center justify-between group">
+          <div>
+            <div className="inline-flex items-center justify-center w-12 h-12 rounded-xl mb-4 transition-transform group-hover:scale-110" style={{ background: "var(--accent-glow)", color: "var(--accent)" }}>
+              <Mic className="w-6 h-6" />
+            </div>
+            <h3 className="text-2xl font-bold mb-1" style={{ color: "var(--text-primary)" }}>Voice</h3>
+            <p style={{ color: "var(--text-muted)" }}>Speech to text intelligence.</p>
+          </div>
+          <div className="flex gap-1 items-center h-12">
+            {[1, 0.5, 0.8, 0.3, 1].map((h, i) => (
+              <div key={i} className="w-2 rounded-full transition-all group-hover:scale-y-110" style={{ height: `${h * 40}px`, background: "var(--accent)" }} />
             ))}
           </div>
-        </div>
+        </Link>
 
-        {/* ━━ SHOPPING — Wide tile (2x1, bottom-right) ━━ */}
-        <div
-          className="bento-tile col-span-2 row-span-2 p-6 flex flex-col justify-between"
-          onClick={() => onNavigate("shopping")}
-        >
-          <div
-            className="absolute top-0 left-0 w-56 h-56 pointer-events-none"
-            style={{
-              background: "radial-gradient(circle at top left, rgba(59, 130, 246, 0.06), transparent 70%)",
-            }}
-          />
-          <div className="relative z-10">
-            <div className="flex items-center gap-2.5 mb-3">
-              <div
-                className="w-8 h-8 rounded-xl flex items-center justify-center"
-                style={{
-                  background: "rgba(59, 130, 246, 0.1)",
-                  border: "1px solid rgba(59, 130, 246, 0.2)",
-                }}
-              >
-                <ShoppingBag className="w-4 h-4 text-blue-400" />
-              </div>
-              <span className="text-[11px] font-semibold uppercase tracking-[0.1em]" style={{ color: "#6b6b76" }}>
-                Shopping
-              </span>
+        {/* SHOPPING */}
+        <Link href="/shopping" className="bento-tile col-span-1 lg:col-span-2 p-8 flex flex-col justify-between group">
+          <div>
+            <div className="inline-flex items-center justify-center w-12 h-12 rounded-xl mb-4 transition-transform group-hover:scale-110" style={{ background: "var(--accent-glow)", color: "var(--accent)" }}>
+              <ShoppingBag className="w-6 h-6" />
             </div>
-            <h3 className="text-xl font-bold text-white tracking-tight mb-1">
-              Price Intelligence
-            </h3>
-            <p className="text-[12px]" style={{ color: "#6b6b76" }}>
-              Cross-platform comparison with AI review synthesis
-            </p>
+            <h3 className="text-2xl font-bold mb-1" style={{ color: "var(--text-primary)" }}>Shopping</h3>
+            <p style={{ color: "var(--text-muted)" }}>Price intelligence & AI reviews.</p>
           </div>
-
-          {/* Mini price comparison */}
-          <div className="relative z-10 mt-4 space-y-2">
-            {[
-              { site: "Amazon", price: "₹26,990", drop: "-15%", color: "#fbbf24" },
-              { site: "Flipkart", price: "₹27,999", drop: "-12%", color: "#3b82f6" },
-            ].map((item) => (
-              <div
-                key={item.site}
-                className="flex items-center justify-between px-3.5 py-2.5 rounded-xl"
-                style={{ background: "rgba(255,255,255,0.03)", border: "1px solid rgba(255,255,255,0.04)" }}
-              >
-                <div className="flex items-center gap-2.5">
-                  <div
-                    className="w-2 h-2 rounded-full"
-                    style={{ background: item.color }}
-                  />
-                  <span className="text-[12px] text-white font-medium">{item.site}</span>
-                </div>
-                <div className="flex items-center gap-3">
-                  <span className="text-[13px] text-white font-semibold">{item.price}</span>
-                  <span
-                    className="text-[10px] font-semibold flex items-center gap-0.5 px-1.5 py-0.5 rounded-md"
-                    style={{
-                      color: "#10b981",
-                      background: "rgba(16,185,129,0.08)",
-                    }}
-                  >
-                    <TrendingDown className="w-3 h-3" />
-                    {item.drop}
-                  </span>
-                </div>
-              </div>
-            ))}
+          <div className="mt-6 flex justify-between items-end">
+            <div className="text-4xl font-extrabold" style={{ color: "var(--accent)" }}>-15%</div>
+            <div className="text-sm font-semibold" style={{ color: "var(--text-muted)" }}>Amazon dropped</div>
           </div>
-        </div>
+        </Link>
 
-        {/* ━━ DASHBOARD — Bottom row, wide (4x1) ━━ */}
-        <div
-          className="bento-tile col-span-2 row-span-1 p-5 flex items-center justify-between"
-          onClick={() => onNavigate("dashboard")}
-        >
-          <div className="relative z-10 flex items-center gap-4">
-            <div
-              className="w-8 h-8 rounded-xl flex items-center justify-center"
-              style={{
-                background: "rgba(245, 158, 11, 0.1)",
-                border: "1px solid rgba(245, 158, 11, 0.2)",
-              }}
-            >
-              <Activity className="w-4 h-4 text-amber-400" />
+        {/* DASHBOARD */}
+        <Link href="/dashboard" className="bento-tile col-span-1 lg:col-span-4 p-8 flex flex-col sm:flex-row items-center justify-between gap-6 group">
+          <div className="flex items-center gap-6">
+            <div className="inline-flex items-center justify-center w-14 h-14 rounded-2xl shadow-inner transition-transform group-hover:scale-110" style={{ background: "var(--accent-glow)", color: "var(--accent)" }}>
+              <Activity className="w-7 h-7" />
             </div>
             <div>
-              <h3 className="text-sm font-bold text-white tracking-tight">
-                Platform Health
-              </h3>
-              <p className="text-[11px]" style={{ color: "#6b6b76" }}>
-                6 layers verified · 103 tests passing
-              </p>
+              <h3 className="text-2xl font-bold" style={{ color: "var(--text-primary)" }}>Platform Health</h3>
+              <p className="text-lg" style={{ color: "var(--text-muted)" }}>All systems operational.</p>
             </div>
           </div>
-
-          {/* Mini health bars */}
-          <div className="relative z-10 flex items-center gap-1.5">
-            {[1, 1, 1, 1, 1, 1].map((_, i) => (
-              <div
-                key={i}
-                className="w-6 h-4 rounded-[3px]"
-                style={{
-                  background: "rgba(16, 185, 129, 0.2)",
-                  border: "1px solid rgba(16, 185, 129, 0.15)",
-                }}
-              />
-            ))}
-            <span className="text-[10px] font-semibold text-emerald-400 ml-2">
-              All green
-            </span>
+          <div className="flex items-center gap-2">
+             {[1, 1, 1, 1, 1].map((_, i) => <div key={i} className="w-8 h-8 rounded-lg shadow-lg" style={{ background: "var(--accent)", opacity: 0.8 }} />)}
           </div>
-        </div>
-      </div>
+        </Link>
 
-      {/* ── Quick stat pills ── */}
-      <div className="flex items-center gap-3 mt-8">
-        {[
-          { icon: Zap, label: "Ollama connected", color: "#10b981" },
-          { icon: Radio, label: "FastAPI live", color: "#7c5cfc" },
-        ].map((pill) => (
-          <div
-            key={pill.label}
-            className="flex items-center gap-2 px-3 py-1.5 rounded-full text-[11px] font-medium"
-            style={{
-              color: pill.color,
-              background: `${pill.color}10`,
-              border: `1px solid ${pill.color}20`,
-            }}
-          >
-            <pill.icon className="w-3 h-3" />
-            {pill.label}
+        {/* ── UPCOMING FLAGSHIP FEATURES ── */}
+
+        {/* LENS (Data) */}
+        <Link href="/lens" className="bento-tile col-span-1 lg:col-span-2 p-8 flex flex-col justify-between group">
+          <div>
+            <div className="inline-flex items-center justify-center px-3 py-1 rounded-full mb-4 font-bold text-[10px] tracking-widest uppercase" style={{ background: "var(--accent-glow)", color: "var(--accent)" }}>
+              New
+            </div>
+            <h3 className="text-2xl font-bold mb-1" style={{ color: "var(--text-primary)" }}>The Lens</h3>
+            <p style={{ color: "var(--text-muted)" }}>Autonomous Data Analyst.</p>
           </div>
-        ))}
+          <div className="mt-6 flex justify-between items-end opacity-50">
+            <p className="text-[12px] font-bold" style={{ color: "var(--text-primary)" }}>Drop CSV → Get Insights</p>
+          </div>
+        </Link>
+
+        {/* MULTIPLIER (Content) */}
+        <Link href="/multiplier" className="bento-tile col-span-1 lg:col-span-2 p-8 flex flex-col justify-between group">
+          <div>
+            <div className="inline-flex items-center justify-center px-3 py-1 rounded-full mb-4 font-bold text-[10px] tracking-widest uppercase" style={{ background: "var(--accent-glow)", color: "var(--accent)" }}>
+              New
+            </div>
+            <h3 className="text-2xl font-bold mb-1" style={{ color: "var(--text-primary)" }}>The Multiplier</h3>
+            <p style={{ color: "var(--text-muted)" }}>AI Content & Podcasting Engine.</p>
+          </div>
+          <div className="mt-6 flex justify-between items-end opacity-50">
+            <p className="text-[12px] font-bold" style={{ color: "var(--text-primary)" }}>1 Video → 10 Posts</p>
+          </div>
+        </Link>
+
+        {/* SCOUT (SDR) */}
+        <Link href="/scout" className="bento-tile col-span-1 lg:col-span-2 p-8 flex flex-col justify-between group">
+          <div>
+            <div className="inline-flex items-center justify-center px-3 py-1 rounded-full mb-4 font-bold text-[10px] tracking-widest uppercase" style={{ background: "var(--accent-glow)", color: "var(--accent)" }}>
+              New
+            </div>
+            <h3 className="text-2xl font-bold mb-1" style={{ color: "var(--text-primary)" }}>The Scout</h3>
+            <p style={{ color: "var(--text-muted)" }}>Hyper-personalized SDR Agent.</p>
+          </div>
+          <div className="mt-6 flex justify-between items-end opacity-50">
+             <p className="text-[12px] font-bold" style={{ color: "var(--text-primary)" }}>Scrape URL → Write Pitch</p>
+          </div>
+        </Link>
+
+        {/* ARCHITECT (Wireframes) */}
+        <Link href="/architect" className="bento-tile col-span-1 lg:col-span-2 p-8 flex flex-col justify-between group">
+          <div>
+            <div className="inline-flex items-center justify-center px-3 py-1 rounded-full mb-4 font-bold text-[10px] tracking-widest uppercase" style={{ background: "var(--accent-glow)", color: "var(--accent)" }}>
+              New
+            </div>
+            <h3 className="text-2xl font-bold mb-1" style={{ color: "var(--text-primary)" }}>The Architect</h3>
+            <p style={{ color: "var(--text-muted)" }}>Interactive UI Builder.</p>
+          </div>
+          <div className="mt-6 flex justify-between items-end opacity-50">
+             <p className="text-[12px] font-bold" style={{ color: "var(--text-primary)" }}>Prompt → React App</p>
+          </div>
+        </Link>
+
       </div>
     </div>
   );
